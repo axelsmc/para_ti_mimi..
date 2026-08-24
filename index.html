@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carta para Noemí</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Great+Vibes&family=Lora:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@400;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --color-fondo: #120e10;
+            --color-sobre-exterior: #ffffff;
+            --color-sobre-interior: #e2e2e2;
+            --color-solapa: #efefef;
+
+            --color-papel: #0d0d0d;
+            --color-texto-neon: #ff2a8d;
+            --glow-neon: 0 0 5px #ff007f, 0 0 10px #ff007f, 0 0 20px #ff007f;
+
+            --color-sello-oscuro: #4a0000;
+            --color-sello: #7a0000;
+            --color-sello-brillo: #a81c1c;
+            --color-dorado-brillo: #f3e5ab;
+            --sombra-sello: rgba(0, 0, 0, 0.4);
+
+            --fuente-titulo: 'Great Vibes', cursive;
+            --fuente-carta: 'Lora', serif;
+            --fuente-firma: 'Dancing Script', cursive;
+            --fuente-interfaz: 'Montserrat', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: radial-gradient(circle at center, #ffbeaa 0%, #ffa3d1 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: var(--fuente-interfaz);
+            overflow-x: hidden;
+            overflow-y: auto;
+            color: #fff;
+            padding: 20px 0;
+        }
+
+        .contenedor-principal {
+            position: relative;
+            width: 90%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .instruccion-inicial {
+            position: absolute;
+            top: -40px;
+            color: var(--color-dorado-brillo);
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-align: center;
+            animation: flotarTexto 2s ease-in-out infinite alternate;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+            width: 100%;
+        }
+
+        @keyframes flotarTexto {
+            0% {
+                transform: translateY(0);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: translateY(-6px);
+                opacity: 1;
+            }
+        }
+
+        .sobre-contenedor {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            transition: height 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Cuerpo del sobre */
+        .sobre-base {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 250px;
+            background-color: var(--color-sobre-exterior);
+            border-radius: 8px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+            z-index: 1;
+        }
+
+        /* Solapas del sobre */
+        .solapa-superior {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 130px;
+            background-color: var(--color-solapa);
+            clip-path: polygon(0 0, 50% 100%, 100% 0);
+            transform-origin: top center;
+            transition: transform 0.6s ease-in-out, z-index 0.6s ease-in-out;
+            z-index: 5;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+        }
+
+        .solapa-izquierda {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 250px;
+            background-color: var(--color-sobre-interior);
+            clip-path: polygon(0 0, 100% 50%, 0 100%);
+            z-index: 3;
+        }
+
+        .solapa-derecha {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 250px;
+            background-color: var(--color-sobre-interior);
+            clip-path: polygon(100% 0, 0 50%, 100% 100%);
+            z-index: 3;
+        }
+
+        .solapa-inferior {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 135px;
+            background-color: #f7f7f7;
+            clip-path: polygon(0 100%, 50% 0, 100% 100%);
+            z-index: 4;
+            filter: drop-shadow(0 -1px 2px rgba(0, 0, 0, 0.08));
+        }
+
+        /* Hoja de la Carta */
+        .carta-hoja {
+            position: absolute;
+            top: 10px;
+            left: 4%;
+            width: 92%;
+            height: 230px;
+            background: var(--color-papel);
+            border-radius: 8px;
+            padding: 20px 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.6);
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), height 0.8s ease;
+            z-index: 2;
+            border: 1px solid #333;
+        }
+
+        .carta-contenido {
+            opacity: 0;
+            transition: opacity 0.4s ease 0.3s;
+            height: 100%;
+            overflow-y: auto;
+            padding-right: 5px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .carta-contenido::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        .carta-contenido::-webkit-scrollbar-thumb {
+            background: var(--color-texto-neon);
+            border-radius: 4px;
+        }
+
+        .titulo-carta {
+            font-family: var(--fuente-titulo);
+            font-size: 2rem;
+            color: var(--color-texto-neon);
+            text-shadow: var(--glow-neon);
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .texto-carta {
+            font-family: var(--fuente-carta);
+            font-size: 0.88rem;
+            line-height: 1.6;
+            text-align: justify;
+            color: var(--color-texto-neon);
+            text-shadow: 0 0 3px #ff007f;
+            margin-bottom: 10px;
+        }
+
+        .firma-carta {
+            font-family: var(--fuente-firma);
+            font-size: 1.5rem;
+            text-align: right;
+            color: var(--color-texto-neon);
+            text-shadow: var(--glow-neon);
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        /* Sello */
+        .boton-sello-cera {
+            position: absolute;
+            top: 95px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 65px;
+            height: 65px;
+            background: radial-gradient(circle at 35% 35%, var(--color-sello-brillo), var(--color-sello) 60%, var(--color-sello-oscuro));
+            border: none;
+            cursor: pointer;
+            z-index: 6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+            outline: none;
+            clip-path: path('M 32.5,12 C 32.5,12 24,0 12,0 C 3.7,0 0,8.3 0,17.5 C 0,34 32.5,60 32.5,60 C 32.5,60 65,34 65,17.5 C 65,8.3 61.3,0 53,0 C 41,0 32.5,12 32.5,12 Z');
+            filter: drop-shadow(0px 4px 6px var(--sombra-sello));
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .sello-borde-cera {
+            position: absolute;
+            width: 82%;
+            height: 82%;
+            border: 1px dashed rgba(243, 229, 171, 0.4);
+            clip-path: path('M 26.6,9.8 C 26.6,9.8 19.6,0 9.8,0 C 3.3,0 0,6.5 0,14.3 C 0,27.8 26.6,49.1 26.6,49.1 C 26.6,49.1 53.2,27.8 53.2,14.3 C 53.2,6.5 49.9,0 43.4,0 C 33.6,0 26.6,9.8 26.6,9.8 Z');
+            pointer-events: none;
+        }
+
+        .sello-emblema {
+            color: var(--color-dorado-brillo);
+            font-family: var(--fuente-firma);
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9);
+            user-select: none;
+            margin-top: -6px;
+        }
+
+        /* Reproductor de Música */
+        .reproductor-musica {
+            position: fixed;
+            bottom: 15px;
+            right: 15px;
+            background: rgba(20, 20, 20, 0.9);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--color-texto-neon);
+            box-shadow: 0 0 10px rgba(255, 0, 127, 0.3);
+            padding: 8px 14px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+            z-index: 100;
+        }
+
+        .reproductor-musica.activo {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .boton-control-musica {
+            background: none;
+            border: none;
+            color: var(--color-texto-neon);
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .etiqueta-musica {
+            font-size: 0.75rem;
+            color: #fff;
+        }
+
+        .ecualizador-ondas {
+            display: flex;
+            align-items: flex-end;
+            gap: 2px;
+            height: 12px;
+        }
+
+        .barra-onda {
+            width: 2px;
+            height: 100%;
+            background-color: var(--color-texto-neon);
+            border-radius: 2px;
+            animation: animarOnda 1.2s infinite ease-in-out alternate;
+        }
+
+        .barra-onda:nth-child(1) {
+            animation-delay: 0.0s;
+        }
+
+        .barra-onda:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+
+        .barra-onda:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        @keyframes animarOnda {
+            0% {
+                height: 20%;
+            }
+
+            100% {
+                height: 100%;
+            }
+        }
+
+        .ecualizador-ondas.pausado .barra-onda {
+            animation-play-state: paused;
+            height: 30%;
+        }
+
+        /* ESTADO ABIERTO: Despliegue hacia abajo y reajuste */
+        .sobre-contenedor.abierto {
+            height: 420px;
+        }
+
+        .sobre-contenedor.abierto .solapa-superior {
+            transform: rotateX(180deg);
+            z-index: 0;
+        }
+
+        .sobre-contenedor.abierto .boton-sello-cera {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateX(-50%) scale(0.5);
+        }
+
+        .sobre-contenedor.abierto .carta-hoja {
+            transform: translateY(30px);
+            height: 380px;
+            z-index: 10;
+        }
+
+        .sobre-contenedor.abierto .carta-contenido {
+            opacity: 1;
+        }
+
+        .destello {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: var(--color-texto-neon);
+            box-shadow: var(--glow-neon);
+            pointer-events: none;
+            animation: animarDestello 1s ease-out forwards;
+            z-index: 20;
+        }
+
+        @keyframes animarDestello {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(1);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translate(var(--desplazamiento-x), var(--desplazamiento-y)) scale(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="contenedor-principal">
+        <div class="instruccion-inicial" id="textoInstruccion">
+            Presiona el sello para abrir
+        </div>
+
+        <div class="sobre-contenedor" id="contenedorSobre">
+            <div class="sobre-base"></div>
+
+            <div class="solapa-superior" id="solapaSuperior"></div>
+            <div class="solapa-izquierda"></div>
+            <div class="solapa-derecha"></div>
+            <div class="solapa-inferior"></div>
+
+            <div class="carta-hoja" id="cartaHoja">
+                <div class="carta-contenido">
+                    <h1 class="titulo-carta">Para Noemí</h1>
+
+                    <p class="texto-carta">
+                        Querida Noemí,
+                    </p>
+
+                    <p class="texto-carta">
+                        Hay personas que tienen la cualidad de hacer que todo a su alrededor se sienta un poco más
+                        especial, brillante y cálido, y tú eres sin duda una de ellas.
+                    </p>
+
+                    <p class="texto-carta">
+                        Esta pequeña carta es un detalle para recordarte lo valiosa que eres y darte un momento
+                        lindo en tu día. Espero que este pequeño gesto te saquen una bonita sonrisa y sea de tu
+                        agrado...
+                    </p>
+
+                    <p class="texto-carta">
+                        ¡Gracias por ser tal como eres e iluminar los días de quienes te rodean!
+                    </p>
+
+                    <div class="firma-carta">
+                        Con cariño,<br>
+                        Axel
+                    </div>
+                </div>
+            </div>
+
+            <button class="boton-sello-cera" id="botonSello" aria-label="Abrir carta">
+                <div class="sello-borde-cera"></div>
+                <span class="sello-emblema">N</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="reproductor-musica" id="reproductorMusica">
+        <button class="boton-control-musica" id="botonControlMusica" aria-label="Pausar o reproducir música">
+            <span id="iconoMusica">❚❚</span>
+        </button>
+        <span class="etiqueta-musica">Música activada</span>
+        <div class="ecualizador-ondas" id="ecualizadorOndas">
+            <div class="barra-onda"></div>
+            <div class="barra-onda"></div>
+            <div class="barra-onda"></div>
+        </div>
+    </div>
+
+    <audio id="audioFondo" loop preload="auto">
+        <source src="cancion.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const contenedorSobre = document.getElementById('contenedorSobre');
+        const botonSello = document.getElementById('botonSello');
+        const textoInstruccion = document.getElementById('textoInstruccion');
+        const audioFondo = document.getElementById('audioFondo');
+        const reproductorMusica = document.getElementById('reproductorMusica');
+        const botonControlMusica = document.getElementById('botonControlMusica');
+        const iconoMusica = document.getElementById('iconoMusica');
+        const ecualizadorOndas = document.getElementById('ecualizadorOndas');
+
+        let cartaEstaAbierta = false;
+
+        function iniciarMusica() {
+            audioFondo.play().then(() => {
+                reproductorMusica.classList.add('activo');
+            }).catch((error) => {
+                console.log("Audio bloqueado:", error);
+            });
+        }
+
+        function alternarMusica(evento) {
+            if (evento) evento.stopPropagation();
+            if (audioFondo.paused) {
+                audioFondo.play();
+                iconoMusica.textContent = '❚❚';
+                ecualizadorOndas.classList.remove('pausado');
+            } else {
+                audioFondo.pause();
+                iconoMusica.textContent = '▶';
+                ecualizadorOndas.classList.add('pausado');
+            }
+        }
+
+        function crearEfectoDestellos() {
+            const cantidadDestellos = 16;
+            const rectanguloSello = botonSello.getBoundingClientRect();
+            const centroX = rectanguloSello.left + rectanguloSello.width / 2;
+            const centroY = rectanguloSello.top + rectanguloSello.height / 2;
+
+            for (let i = 0; i < cantidadDestellos; i++) {
+                const destello = document.createElement('div');
+                destello.classList.add('destello');
+
+                const angulo = Math.random() * Math.PI * 2;
+                const distancia = 40 + Math.random() * 60;
+                const desplazamientoX = `${Math.cos(angulo) * distancia}px`;
+                const desplazamientoY = `${Math.sin(angulo) * distancia}px`;
+
+                destello.style.setProperty('--desplazamiento-x', desplazamientoX);
+                destello.style.setProperty('--desplazamiento-y', desplazamientoY);
+                destello.style.left = `${centroX}px`;
+                destello.style.top = `${centroY}px`;
+
+                document.body.appendChild(destello);
+
+                setTimeout(() => {
+                    destello.remove();
+                }, 1000);
+            }
+        }
+
+        function abrirCarta(evento) {
+            if (evento) evento.preventDefault();
+            if (cartaEstaAbierta) return;
+
+            cartaEstaAbierta = true;
+            textoInstruccion.style.opacity = '0';
+            crearEfectoDestellos();
+            contenedorSobre.classList.add('abierto');
+            iniciarMusica();
+        }
+
+        botonSello.addEventListener('click', abrirCarta);
+        botonSello.addEventListener('touchstart', abrirCarta, { passive: false });
+
+        botonControlMusica.addEventListener('click', alternarMusica);
+        botonControlMusica.addEventListener('touchstart', alternarMusica, { passive: false });
+    </script>
+</body>
+
+</html>

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para mi negrita linda</title>
+    <title>Para mi negrita...</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -79,15 +79,8 @@
         }
 
         @keyframes flotarTexto {
-            0% {
-                transform: translateY(0);
-                opacity: 0.8;
-            }
-
-            100% {
-                transform: translateY(-6px);
-                opacity: 1;
-            }
+            0% { transform: translateY(0); opacity: 0.8; }
+            100% { transform: translateY(-6px); opacity: 1; }
         }
 
         .sobre-contenedor {
@@ -122,7 +115,7 @@
             transform-origin: top center;
             transition: transform 0.6s ease-in-out, z-index 0.6s ease-in-out;
             z-index: 5;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
         }
 
         .solapa-izquierda {
@@ -156,7 +149,7 @@
             background-color: #f7f7f7;
             clip-path: polygon(0 100%, 50% 0, 100% 100%);
             z-index: 4;
-            filter: drop-shadow(0 -1px 2px rgba(0, 0, 0, 0.08));
+            filter: drop-shadow(0 -1px 2px rgba(0,0,0,0.08));
         }
 
         /* Hoja de la Carta */
@@ -320,26 +313,13 @@
             animation: animarOnda 1.2s infinite ease-in-out alternate;
         }
 
-        .barra-onda:nth-child(1) {
-            animation-delay: 0.0s;
-        }
-
-        .barra-onda:nth-child(2) {
-            animation-delay: 0.3s;
-        }
-
-        .barra-onda:nth-child(3) {
-            animation-delay: 0.6s;
-        }
+        .barra-onda:nth-child(1) { animation-delay: 0.0s; }
+        .barra-onda:nth-child(2) { animation-delay: 0.3s; }
+        .barra-onda:nth-child(3) { animation-delay: 0.6s; }
 
         @keyframes animarOnda {
-            0% {
-                height: 20%;
-            }
-
-            100% {
-                height: 100%;
-            }
+            0% { height: 20%; }
+            100% { height: 100%; }
         }
 
         .ecualizador-ondas.pausado .barra-onda {
@@ -347,7 +327,7 @@
             height: 30%;
         }
 
-        /* ESTADO ABIERTO: Despliegue hacia abajo y reajuste */
+        /* ESTADO ABIERTO */
         .sobre-contenedor.abierto {
             height: 420px;
         }
@@ -386,15 +366,8 @@
         }
 
         @keyframes animarDestello {
-            0% {
-                opacity: 1;
-                transform: translate(0, 0) scale(1);
-            }
-
-            100% {
-                opacity: 0;
-                transform: translate(var(--desplazamiento-x), var(--desplazamiento-y)) scale(0);
-            }
+            0% { opacity: 1; transform: translate(0, 0) scale(1); }
+            100% { opacity: 0; transform: translate(var(--desplazamiento-x), var(--desplazamiento-y)) scale(0); }
         }
     </style>
 </head>
@@ -408,7 +381,7 @@
 
         <div class="sobre-contenedor" id="contenedorSobre">
             <div class="sobre-base"></div>
-
+            
             <div class="solapa-superior" id="solapaSuperior"></div>
             <div class="solapa-izquierda"></div>
             <div class="solapa-derecha"></div>
@@ -424,17 +397,17 @@
 
                     <p class="texto-carta">
                         Hay personas que tienen la cualidad de hacer que todo a su alrededor se sienta un poco más
-                        especial, brillante y cálido, y tú eres sin duda una de ellas.
+                        especial, brillante y cálido, y tú eres sin duda una de ellas...
                     </p>
 
                     <p class="texto-carta">
-                        Esta pequeña carta es un detalle para recordarte lo valiosaa que eres y darte un momento
+                        Esta pequeña carta es un detalle para recordarte lo valiosaa que eres para mi y darte un momento
                         lindo en tu día. Espero que este pequeño gesto te saquen una bonita sonrisa y sea de tu
-                        agrado...
+                        agrado... PSDT: Te Quiero Mucho.
                     </p>
 
                     <p class="texto-carta">
-                        ¡Gracias por ser tal como eres e iluminar los días de quienes te rodean; Psdt: Te Quiero Mucho Noemi
+                        ¡Graciaas por ser tal como eres e iluminar los días de quienes te rodean.
                     </p>
 
                     <div class="firma-carta">
@@ -463,7 +436,7 @@
         </div>
     </div>
 
-    <audio id="audioFondo" loop preload="auto">
+    <audio id="audioFondo" loop preload="auto" playsinline>
         <source src="cancion.mp3" type="audio/mpeg">
     </audio>
 
@@ -479,16 +452,8 @@
 
         let cartaEstaAbierta = false;
 
-        function iniciarMusica() {
-            audioFondo.play().then(() => {
-                reproductorMusica.classList.add('activo');
-            }).catch((error) => {
-                console.log("Audio bloqueado:", error);
-            });
-        }
-
-        function alternarMusica(evento) {
-            if (evento) evento.stopPropagation();
+        function alternarMusica(e) {
+            if (e) e.stopPropagation();
             if (audioFondo.paused) {
                 audioFondo.play();
                 iconoMusica.textContent = '❚❚';
@@ -528,22 +493,24 @@
             }
         }
 
-        function abrirCarta(evento) {
-            if (evento) evento.preventDefault();
+        function abrirCarta(e) {
+            if (e) e.preventDefault();
             if (cartaEstaAbierta) return;
 
             cartaEstaAbierta = true;
+
+            // Reproducción directa e inmediata para desbloquear el audio en móviles
+            audioFondo.play();
+            reproductorMusica.classList.add('activo');
+
             textoInstruccion.style.opacity = '0';
             crearEfectoDestellos();
             contenedorSobre.classList.add('abierto');
-            iniciarMusica();
         }
 
-        botonSello.addEventListener('click', abrirCarta);
-        botonSello.addEventListener('touchstart', abrirCarta, { passive: false });
-
-        botonControlMusica.addEventListener('click', alternarMusica);
-        botonControlMusica.addEventListener('touchstart', alternarMusica, { passive: false });
+        // Listener unificado para evitar bloqueos del navegador móvil
+        botonSello.addEventListener('pointerdown', abrirCarta);
+        botonControlMusica.addEventListener('pointerdown', alternarMusica);
     </script>
 </body>
 
